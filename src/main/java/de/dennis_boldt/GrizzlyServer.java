@@ -1,8 +1,6 @@
 package de.dennis_boldt;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -24,13 +22,11 @@ public class GrizzlyServer {
         URI uri = UriBuilder.fromUri("http://" + HOSTNAME).port(PORT).build();
 
         // Create the ResourceConfig
-        final Map<String, Object> init_params = new HashMap<String, Object>();
-        init_params.put("com.sun.jersey.config.property.packages", JAXRS_RESOURCES);
-        ResourceConfig resourceConfig =  new PackagesResourceConfig(init_params);
+        ResourceConfig rc = new PackagesResourceConfig(JAXRS_RESOURCES);
 
         // Start the server
         try {
-            HttpServer server = GrizzlyServerFactory.createHttpServer(uri, resourceConfig);
+            HttpServer server = GrizzlyServerFactory.createHttpServer(uri, rc);
             System.out.println("Grizzly server started.");
             System.in.read();
             System.out.print("Stop server...");
@@ -41,7 +37,6 @@ public class GrizzlyServer {
             e.printStackTrace();
         }
     }
-
 
     public static void main(String[] args) {
         new GrizzlyServer(9999);
